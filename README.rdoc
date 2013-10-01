@@ -124,6 +124,20 @@ Here is a more complicated configuration showing most of the configuration optio
     :enable_single_sign_out => true
   )
 
+
+==== An even more complicated example (if you need additional attributes passed to the cas login page)
+
+  CASClient::Frameworks::Rails::Filter.configure(
+    :cas_base_url         => "https://cas.example.foo/",
+    :login_url            => "https://cas.example.foo/login",
+    :extra_login_params   => lambda { |controller| { :dynamic => :here } }
+  )
+
+calling `login_url` would then generate:
+
+  CASClient::Frameworks::Rails::Filter.login_url
+    => "https://cas.example.foo/login?service=bababa&dynamic=here"
+
 Note that normally it is not necessary to specify <tt>:login_url</tt>, <tt>:logout_url</tt>, and <tt>:validate_url</tt>.
 These values are automatically set to standard CAS defaults based on the given <tt>:cas_base_url</tt>.
 

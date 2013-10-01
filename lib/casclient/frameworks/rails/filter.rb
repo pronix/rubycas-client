@@ -159,8 +159,17 @@ module CASClient
           def login_url(controller)
             service_url = read_service_url(controller)
             url = client.add_service_to_login_url(service_url)
+            url += extra_login_params(controller)
             log.debug("Generated login url: #{url}")
             return url
+          end
+
+          def extra_login_params(controller)
+            return nil unless @@config[:extra_params]
+
+            # extra_params returns a hash of additional params
+            extra_params = @@config[:extra_params].call(controller)
+            extra_params.map { |k, v| "&#{k}=#{v}" }.join
           end
 
           # allow controllers to reuse the existing config to auto-login to

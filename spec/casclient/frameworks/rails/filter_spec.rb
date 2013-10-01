@@ -11,7 +11,22 @@ describe CASClient::Frameworks::Rails::Filter do
     )
   end
 
-  describe "#fake" do
+  describe ".login_url" do
+    it 'includes extra params' do
+      CASClient::Frameworks::Rails::Filter.configure(
+        :cas_base_url => 'http://test.local/',
+        :logger => double("Logger"),
+        :extra_params => lambda { |controller| { :foo => 'bar' } }
+      )
+
+      controller = mock_controller_with_session()
+
+      url = CASClient::Frameworks::Rails::Filter.login_url(controller)
+      url.should include("&foo=bar")
+    end
+  end
+
+  describe ".fake" do
     subject { Hash.new }
     context "faking user without attributes" do
       before { CASClient::Frameworks::Rails::Filter.fake('tester@test.com') }
