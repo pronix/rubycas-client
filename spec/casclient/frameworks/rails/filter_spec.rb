@@ -16,7 +16,7 @@ describe CASClient::Frameworks::Rails::Filter do
       CASClient::Frameworks::Rails::Filter.configure(
         :cas_base_url => 'http://test.local/',
         :logger => double("Logger"),
-        :extra_params => lambda { |controller| { :foo => 'bar' } }
+        :extra_login_params => lambda { |controller| { :foo => 'bar' } }
       )
 
       controller = mock_controller_with_session()
