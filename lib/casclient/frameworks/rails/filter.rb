@@ -233,12 +233,12 @@ module CASClient
             end
             format = (format == :js ? :json : format)
             case format
-            when :xml, :json
+            when :xml, :json, :xls
               if vr
                 case format
                 when :xml
                   controller.send(:render, :xml => { :error => vr.failure_message }.to_xml(:root => 'errors'), :status => :unauthorized)
-                when :json
+                when :json, :xls
                   controller.send(:render, :json => { :errors => { :error => vr.failure_message }}, :status => :unauthorized)
                 end
               else
